@@ -63,6 +63,11 @@ class Article(object):
         self.config = extend_config(self.config, kwargs)
 
         self.use_playwright = use_playwright
+        if (use_playwright) :
+            print("using Playwright")
+        else :
+            print("WHAT?  NO JAVASCRIPT?")
+            
 
         self.extractor = ContentExtractor(self.config)
 
