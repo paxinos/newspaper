@@ -64,10 +64,10 @@ class Article(object):
 
         self.use_playwright = use_playwright
         if (use_playwright) :
-            print("using Playwright")
+            log.debug("using Playwright")
         else :
-            print("WHAT?  NO JAVASCRIPT?")
-            
+            log.debug("WHAT?  NO JAVASCRIPT?")
+
 
         self.extractor = ContentExtractor(self.config)
 
