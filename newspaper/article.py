@@ -228,7 +228,7 @@ class Article(object):
         self.set_html(html)
         self.set_title(title)
 
-    def parse(self):
+    def parse(self,source=None): #TODO
         self.throw_if_not_downloaded_verbose()
 
         self.doc = self.config.get_parser().fromstring(self.html)
@@ -292,7 +292,8 @@ class Article(object):
             self.top_node = self.extractor.post_cleanup(self.top_node)
             self.clean_top_node = copy.deepcopy(self.top_node)
 
-            text, article_html = output_formatter.get_formatted(self.top_node)
+            #TODO
+            text, article_html = output_formatter.get_formatted(self.top_node, source)
             self.set_article_html(article_html)
             self.set_text(text)
 

@@ -38,7 +38,7 @@ class OutputFormatter(object):
     def get_top_node(self):
         return self.top_node
 
-    def get_formatted(self, top_node):
+    def get_formatted(self, top_node, source=None):#TODO
         """Returns the body text of an article, and also the body article
         html if specified. Returns in (text, html) form
         """
@@ -50,7 +50,7 @@ class OutputFormatter(object):
         if self.config.keep_article_html:
             html = self.convert_to_html()
 
-        self.links_to_text()
+        self.links_to_text(source)
         self.add_newline_to_br()
         self.add_newline_to_li()
         self.replace_with_text()
@@ -92,10 +92,25 @@ class OutputFormatter(object):
                 for c in self.parser.getChildren(li):
                     self.parser.remove(c)
 
-    def links_to_text(self):
+    def links_to_text(self, source=None):#TODO
         """Cleans up and converts any nodes that should be considered
         text into text.
         """
+        if source != None and source == 'FNC':
+            # TODO Get elements with 'a' tag
+            elements = self.parser.getElementsByTag(self.get_top_node(), 'a')
+            for element in elements:
+                for wt in element.iter():
+                    if wt.text != None and str.isupper(wt.text):
+                        # TODO safe the node link in an list 
+                        wt.getparent().remove(wt)
+        elif source != None and source == 'Watts Up With That':
+            elements = self.parser.getElementsByTag(self.get_top_node(), 'div')
+            for element in elements:
+                if (element.attrib.get('id') == 'wpd-post-rating' 
+                or 'sharedaddy' in element.attrib.get('class') ):
+                    element.getparent().remove(element)
+
         self.parser.stripTags(self.get_top_node(), 'a')
 
     def remove_negativescores_nodes(self):
